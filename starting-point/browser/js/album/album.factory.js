@@ -19,15 +19,9 @@ juke.factory('StatsFactory', function ($q) {
 	return statsObj;
 });
 
-juke.factory('AlbumFactory', function($http){
-
+juke.factory('AlbumFactory', function($http, AlbumsFactory){
 	var albumObj = {};
-	albumObj.fetchAll = function (){
-		return $http.get('/api/albums/')
-			.then(function (res) {
-				return res.data;
-			})
-	}
+	albumObj.fetchAll = AlbumsFactory.fetchAll;
 	albumObj.fetchById = function (albumId){
 		return $http.get('/api/albums/' + albumId)
 			.then(function (res){

@@ -1,18 +1,13 @@
 /* global juke */
 'use strict';
 
-juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFactory, AlbumFactory) {
+juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, AlbumFactory) {
 
   // load our initial data
-  // $http.get('/api/albums/')
-	// .then(function (res) { return res.data; })
-	// .then(function (albums) {
-	//   return $http.get('/api/albums/' + albums[0].id); // temp: get one
-	// })
 	AlbumFactory.fetchAll()
 		.then(function(foundAlbums){
-			var randomIndex
-			return AlbumFactory.fetchById(foundAlbums[0].id);
+			var randomIndex = Math.floor(Math.random() * foundAlbums.length);
+			return AlbumFactory.fetchById(foundAlbums[randomIndex].id);
 		})
   .then(function (album) {
   	console.log(album);
