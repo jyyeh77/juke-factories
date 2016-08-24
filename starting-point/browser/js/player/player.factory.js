@@ -7,6 +7,7 @@ juke.factory('PlayerFactory', function(){
   var currentSong = undefined;
   var isPlayingBOOL = false;
   var currentaudio = document.createElement('audio');
+	var currentTime = 0;
 
   // jukeFactoryObj.currentaudio.addEventListener('ended', function () {
   //   $scope.next();
@@ -16,29 +17,35 @@ juke.factory('PlayerFactory', function(){
 
 
   jukeFactoryObj.start = function(song) {
-  	
   	if( isPlayingBOOL ){
   		jukeFactoryObj.pause();
   		isPlayingBOOL = false;
   	}
+  	if (currentaudio.currentTime > 0 && song === currentSong) currentaudio.play();
+	  else {
+		  currentSong = song;
+		  currentaudio.src = song.audioUrl;
+		  currentaudio.load();
+		  currentaudio.play();
+	  }
+	  isPlayingBOOL = true;
 
-  	currentSong = song;
-    currentaudio.src = song.audioUrl;
-    currentaudio.load();
-    currentaudio.play();
-    console.log("before", isPlayingBOOL);
-    isPlayingBOOL = true;
-    console.log("after", isPlayingBOOL);
   }
 
   jukeFactoryObj.pause = function() {
   	isPlayingBOOL = false;
+	  currentTime = currentaudio.currentTime;
+	  console.log("Paused time at: ", currentTime);
   	currentaudio.pause();
   }
 
-  jukeFactoryObj.resume = function(event, song) {
+  jukeFactoryObj.resume = function(song) {
   	if( !isPlayingBOOL )
-  		jukeFactoryObj.start(song, audio);
+  		if (song === currentSong) {
+  		  currentaudio.currentTime = currentTime;
+			  console.log("Time at pause: ", currentaudio.currentTime)
+  		  jukeFactoryObj.start(currentSong);
+		  }
   }
 
   jukeFactoryObj.isPlaying = function() {
@@ -48,6 +55,10 @@ juke.factory('PlayerFactory', function(){
   jukeFactoryObj.getCurrentSong = function() {
   	// console.log("Current song is: ", currentSong);
   	return currentSong;
+  }
+
+  jukeFactoryObj.getCurrentTime = function(){
+  	return currentTime;
   }
 
   jukeFactoryObj.next = function() {}

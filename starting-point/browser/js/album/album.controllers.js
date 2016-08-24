@@ -38,10 +38,15 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
   $scope.toggle = function (song) {
   	// if song is playing and song is the current song, then pause!
     if (PlayerFactory.isPlaying() && song === PlayerFactory.getCurrentSong()) {
+    	console.log("Pausing song! ", song.name);
       PlayerFactory.pause();
+    } else if (!PlayerFactory.isPlaying() && song === PlayerFactory.getCurrentSong()) {
+    	console.log("Resuming song!", song.name);
+	    PlayerFactory.resume(song);
     } else {
+    	console.log("Starting new song! ", song.name);
     	// sets currentSong in PlayerFactory to song and plays it
-      PlayerFactory.start(song)
+      PlayerFactory.start(song);
     }
   };
 
