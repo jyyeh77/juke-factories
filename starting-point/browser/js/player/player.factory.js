@@ -5,7 +5,7 @@ juke.factory('PlayerFactory', function(){
   var jukeFactoryObj = {};
 
   var currentSong = undefined;
-  var isPlayingBOOL;
+  var isPlayingBOOL = false;
   var currentaudio = document.createElement('audio');
 
   // jukeFactoryObj.currentaudio.addEventListener('ended', function () {
@@ -15,7 +15,7 @@ juke.factory('PlayerFactory', function(){
   // });
 
 
-  jukeFactoryObj.start = function( event, song) {
+  jukeFactoryObj.start = function(song) {
   	
   	if( isPlayingBOOL ){
   		jukeFactoryObj.pause();
@@ -32,6 +32,7 @@ juke.factory('PlayerFactory', function(){
   }
 
   jukeFactoryObj.pause = function() {
+  	isPlayingBOOL = false;
   	currentaudio.pause();
   }
 
@@ -44,7 +45,8 @@ juke.factory('PlayerFactory', function(){
   	return isPlayingBOOL;
   }
 
-  jukeFactoryObj.getCurrentSong = function(song) {
+  jukeFactoryObj.getCurrentSong = function() {
+  	// console.log("Current song is: ", currentSong);
   	return currentSong;
   }
 

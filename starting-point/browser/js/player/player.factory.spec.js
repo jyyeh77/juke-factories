@@ -39,7 +39,7 @@ describe('`PlayerFactory` factory', function () {
 
   describe('#start', function () {
 
-    xit('plays given song', function () {
+    it('plays given song', function () {
       chai.spy.on(HTMLAudioElement.prototype, 'load');
       chai.spy.on(HTMLAudioElement.prototype, 'play');
       PlayerFactory.start(song1);
@@ -47,7 +47,7 @@ describe('`PlayerFactory` factory', function () {
       expect(HTMLAudioElement.prototype.play).to.have.been.called();
     });
 
-    xit('stops previous song when playing new song', function () {
+    it('stops previous song when playing new song', function () {
       chai.spy.on(PlayerFactory, 'pause');
       chai.spy.on(HTMLAudioElement.prototype, 'play');
       PlayerFactory.start(song1);
@@ -58,7 +58,7 @@ describe('`PlayerFactory` factory', function () {
 
   });
 
-  xdescribe('#pause', function () {
+  describe('#pause', function () {
 
     xit("calls audio's `pause`", function () {
       chai.spy.on(HTMLAudioElement.prototype, 'pause');
@@ -68,7 +68,7 @@ describe('`PlayerFactory` factory', function () {
 
   });
 
-  xdescribe('#resume', function () {
+  describe('#resume', function () {
 
     xit("calls audio's `play`", function () {
       chai.spy.on(HTMLAudioElement.prototype, 'play');
