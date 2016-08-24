@@ -28,7 +28,7 @@
       </div>
 
       <div class="col-xs-10">
-        <div class="album" ng-hide="true" ng-controller="AlbumCtrl">
+        <div class="album" ng-controller="AlbumCtrl">
           <p>
             <h3>{{ album.name }} {{ fullDuration }} </h3>
             <img ng-src="{{ album.imageUrl }}" class="img-thumbnail">
@@ -77,7 +77,8 @@
       </div>
 
       <footer>
-        <div ng-show="currentSong" ng-controller="PlayerCtrl">
+        <!-- <div ng-show="currentSong" ng-controller="PlayerCtrl"> -->
+        <div ng-show="isPlaying" ng-controller="PlayerCtrl">
           <div class="pull-left">
             <button class="btn btn-default" ng-click="prev()">
               <span class="glyphicon glyphicon-step-backward"></span>
