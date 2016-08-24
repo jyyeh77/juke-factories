@@ -23,6 +23,9 @@ juke.controller('AlbumsCtrl', function($scope, $log, $rootScope, AlbumsFactory, 
 			.then(function(fetchedAlbum){
 				clickedAlbum = fetchedAlbum;
 				clickedAlbum.imageUrl = '/api/albums/' + fetchedAlbum.id + '/image';
+				clickedAlbum.songs.forEach((song)=>{
+					song.audioUrl = '/api/songs/' + song.id + '/audio';
+				})
 				$rootScope.$broadcast('viewSwap', {name: 'oneAlbum', album: clickedAlbum});
 			})
 			.catch($log.error)

@@ -34,7 +34,6 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
 	}
 	// listens for 'viewSwap' event from albums controller, and displays one album alone
 	$scope.$on('viewSwap', function (event, data){
-		// console.log(data.name);
 		$scope.album = data.album;
 		$scope.showMe = (data.name === 'oneAlbum');
 	})

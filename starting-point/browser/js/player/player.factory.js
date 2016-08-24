@@ -51,6 +51,8 @@ juke.factory('PlayerFactory', function($rootScope){
   jukeFactoryObj.resume = function(song) {
   	if( !isPlayingBOOL ){
 		  currentaudio.currentTime = currentTime;
+		  currentaudio.src = currentSong.audioUrl;
+		  currentaudio.load();
 		  currentaudio.play();
 		  isPlayingBOOL = true;
 		}
