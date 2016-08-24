@@ -67,7 +67,7 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
   };
   $scope.prev = function () {
   	PlayerFactory.pause();
-		PlayerFactory.prev();
+		PlayerFactory.previous();
   };
 
   function seek (decimal) {

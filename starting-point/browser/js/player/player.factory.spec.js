@@ -120,7 +120,7 @@ describe('`PlayerFactory` factory', function () {
 
   });
 
-  xdescribe('#next', function () {
+  describe('#next', function () {
 
     var songList;
 
@@ -128,7 +128,7 @@ describe('`PlayerFactory` factory', function () {
       songList = [song1, song2];
     });
 
-    xit('starts the next song in the list', function () {
+    it('starts the next song in the list', function () {
       chai.spy.on(PlayerFactory, 'start');
       // start must now accept a second argument, the current song list
       PlayerFactory.start(song1, songList);
@@ -136,7 +136,7 @@ describe('`PlayerFactory` factory', function () {
       expect(PlayerFactory.start).to.have.been.called.with(song2);
     });
 
-    xit('cycles when it reaches the end', function () {
+    it('cycles when it reaches the end', function () {
       chai.spy.on(PlayerFactory, 'start');
       PlayerFactory.start(song2, songList);
       PlayerFactory.next();
