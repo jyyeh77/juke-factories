@@ -3,7 +3,6 @@
 
 juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, AlbumFactory, PlayerFactory) {
 
-	// $scope.songList;
   // load our initial data
 	AlbumFactory.fetchAll()
 		.then(function(foundAlbums){
@@ -16,7 +15,6 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
       song.audioUrl = '/api/songs/' + song.id + '/audio';
       song.albumIndex = i;
     });
-	  // $scope.songList = album.songs;
     $scope.album = album;
 	  StatsFactory.totalTime($scope.album)
 		  .then(function (albumDuration){
@@ -26,7 +24,6 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
   })
   .catch($log.error); // $log service can be turned on and off; also, pre-bound
 
-
 	// retrieves current player state from Player Factory for use in DOM
 	$scope.playing = function(){
 		return PlayerFactory.isPlaying();
@@ -35,7 +32,12 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, A
 	$scope.currentSong = function(){
 		return PlayerFactory.getCurrentSong();
 	}
-
+	// listens for 'viewSwap' event from albums controller, and displays one album alone
+	$scope.$on('viewSwap', function (event, data){
+		// console.log(data.name);
+		$scope.album = data.album;
+		$scope.showMe = (data.name === 'oneAlbum');
+	})
   // main toggle
   $scope.toggle = function (song, songList) {
   	// if song is playing and song is the current song, then pause!

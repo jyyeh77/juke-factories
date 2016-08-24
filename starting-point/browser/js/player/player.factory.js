@@ -16,6 +16,7 @@ juke.factory('PlayerFactory', function($rootScope){
 	  $rootScope.$evalAsync();
 	});
 
+	// Doesn't work atm
   currentaudio.addEventListener('ended', function () {
     jukeFactoryObj.next();
     $rootScope.$apply(); // triggers $rootScope.$digest, which hits other scopes
