@@ -43,7 +43,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="song in album.songs" ng-class="{active: song === currentSong}">
+              <tr ng-repeat="song in album.songs" ng-class="{active: song === currentSong()}">
                 <td>
                   <button class="btn btn-default btn-xs" ng-click="toggle(song, album.songs)">
                     <span class="glyphicon" ng-class="{'glyphicon-pause': playing() && song === currentSong(), 'glyphicon-play': !playing() || song !== currentSong()}"></span>
@@ -91,8 +91,8 @@
             </button>
           </div>
           <div class="bar">
-            <div class="progress" ng-click="handleProgressClick($event)">
-              <div class="progress-bar" ng-style="{width: progress + '%'}"></div>
+            <div class="progress">
+              <div class="progress-bar" ng-style="{width: progress() + '%'}"></div>
             </div>
           </div>
         </div>

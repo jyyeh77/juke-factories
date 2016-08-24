@@ -145,7 +145,7 @@ describe('`PlayerFactory` factory', function () {
 
   });
 
-  xdescribe('#previous', function () {
+  describe('#previous', function () {
 
     var songList;
 
@@ -153,7 +153,7 @@ describe('`PlayerFactory` factory', function () {
       songList = [song1, song2];
     });
 
-    xit('starts the previous song in the list', function () {
+    it('starts the previous song in the list', function () {
       chai.spy.on(PlayerFactory, 'start');
       // start must now accept a second argument, the current song list
       PlayerFactory.start(song2, songList);
@@ -161,7 +161,7 @@ describe('`PlayerFactory` factory', function () {
       expect(PlayerFactory.start).to.have.been.called.with(song1);
     });
 
-    xit('cycles when it reaches the beginning', function () {
+    it('cycles when it reaches the beginning', function () {
       chai.spy.on(PlayerFactory, 'start');
       PlayerFactory.start(song1, songList);
       PlayerFactory.previous();
@@ -171,13 +171,13 @@ describe('`PlayerFactory` factory', function () {
   });
 
 
-  xdescribe('#getProgress', function () {
+  describe('#getProgress', function () {
 
-    xit('is 0 before playing song', function () {
+    it('is 0 before playing song', function () {
       expect(PlayerFactory.getProgress()).to.equal(0);
     });
 
-    xit('is a decimal between 0 and 1 corresponding to audio play progress', function (done) {
+    it('is a decimal between 0 and 1 corresponding to audio play progress', function (done) {
       this.timeout(5000);
       audioMock.addEventListener('playing', function () {
         setTimeout(function () {
@@ -188,7 +188,7 @@ describe('`PlayerFactory` factory', function () {
       PlayerFactory.start(song1);
     });
 
-    xit('stays stable when paused', function (done) {
+    it('stays stable when paused', function (done) {
       this.timeout(1000);
       audioMock.addEventListener('playing', function () {
         setTimeout(PlayerFactory.pause, 100);
