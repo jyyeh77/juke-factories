@@ -60,7 +60,7 @@ describe('`PlayerFactory` factory', function () {
 
   describe('#pause', function () {
 
-    xit("calls audio's `pause`", function () {
+    it("calls audio's `pause`", function () {
       chai.spy.on(HTMLAudioElement.prototype, 'pause');
       PlayerFactory.pause();
       expect(HTMLAudioElement.prototype.pause).to.have.been.called();
@@ -70,7 +70,7 @@ describe('`PlayerFactory` factory', function () {
 
   describe('#resume', function () {
 
-    xit("calls audio's `play`", function () {
+    it("calls audio's `play`", function () {
       chai.spy.on(HTMLAudioElement.prototype, 'play');
       PlayerFactory.resume();
       expect(HTMLAudioElement.prototype.play).to.have.been.called();
@@ -78,40 +78,41 @@ describe('`PlayerFactory` factory', function () {
 
   });
 
-  xdescribe('#isPlaying', function () {
+  describe('#isPlaying', function () {
 
-    xit('returns false when song is not playing', function () {
+    it('returns false when song is not playing', function () {
       expect(PlayerFactory.isPlaying()).to.equal(false);
     });
 
-    xit('returns true when song is playing', function () {
+    it('returns true when song is playing', function () {
       PlayerFactory.start(song1);
       expect(PlayerFactory.isPlaying()).to.equal(true);
     });
 
-    xit('toggles with pause/resume', function () {
+    it('toggles with pause/resume', function () {
       PlayerFactory.start(song1);
       expect(PlayerFactory.isPlaying()).to.equal(true);
       PlayerFactory.pause();
       expect(PlayerFactory.isPlaying()).to.equal(false);
       PlayerFactory.resume();
+	    console.log(PlayerFactory.isPlaying());
       expect(PlayerFactory.isPlaying()).to.equal(true);
     });
 
   });
 
-  xdescribe('#getCurrentSong', function () {
+  describe('#getCurrentSong', function () {
 
-    xit('defaults to null', function () {
+    it('defaults to null', function () {
       expect(PlayerFactory.getCurrentSong()).to.equal(null);
     });
 
-    xit('returns the song that is playing', function () {
+    it('returns the song that is playing', function () {
       PlayerFactory.start(song1);
       expect(PlayerFactory.getCurrentSong()).to.equal(song1);
     });
 
-    xit('returns the current song even when paused', function () {
+    it('returns the current song even when paused', function () {
       PlayerFactory.start(song1);
       PlayerFactory.pause();
       expect(PlayerFactory.getCurrentSong()).to.equal(song1);

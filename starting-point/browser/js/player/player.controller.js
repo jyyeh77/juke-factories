@@ -25,7 +25,18 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
 
   // main toggle
   $scope.toggle = function (song) {
-    // if( PlayerFactory.isPlaying() )
+	  // if song is playing and song is the current song, then pause!
+	  if (PlayerFactory.isPlaying() && song === PlayerFactory.getCurrentSong()) {
+		  console.log("Pausing song! ", song.name);
+		  PlayerFactory.pause();
+	  } else if (!PlayerFactory.isPlaying() && song === PlayerFactory.getCurrentSong()) {
+		  console.log("Resuming song!", song.name);
+		  PlayerFactory.resume(song);
+	  } else {
+		  console.log("Starting new song! ", song.name);
+		  // sets currentSong in PlayerFactory to song and plays it
+		  PlayerFactory.start(song);
+	  }
 
     // if ($scope.playing) $rootScope.$broadcast('pause');
     // else $rootScope.$broadcast('play', song);
@@ -42,7 +53,6 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
 	$scope.currentSong = function() {
 		return PlayerFactory.getCurrentSong();
 	}
-	console.log("State of isPlaying: ", $scope.isPlaying());
 
   // functionality
   function pause () {
@@ -50,26 +60,15 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
     $scope.playing = false;
   }
 
-  // function play (event, song){
-  //   // stop existing audio (e.g. other song) in any case
-  //   pause();
-  //   $scope.playing = true;
-  //   // resume current song
-  //   if (song === $scope.currentSong) return audio.play();
-  //   // enable loading new song
-  //   $scope.currentSong = song;
-  //   audio.src = song.audioUrl;
-  //   audio.load();
-  //   audio.play();
-  // }
-
-  
-
-
-
   // outgoing events (to Album… or potentially other characters)
-  $scope.next = function () { pause(); $rootScope.$broadcast('next'); };
-  $scope.prev = function () { pause(); $rootScope.$broadcast('prev'); };
+  $scope.next = function () {
+  	PlayerFactory.pause();
+		PlayerFactory.next();
+  };
+  $scope.prev = function () {
+  	PlayerFactory.pause();
+		PlayerFactory.prev();
+  };
 
   function seek (decimal) {
     audio.currentTime = audio.duration * decimal;
@@ -78,5 +77,4 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
   $scope.handleProgressClick = function (evt) {
     seek(evt.offsetX / evt.currentTarget.scrollWidth);
   };
-
 });

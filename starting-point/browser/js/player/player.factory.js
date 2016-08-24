@@ -4,10 +4,11 @@ juke.factory('PlayerFactory', function(){
   // non-UI logic in here
   var jukeFactoryObj = {};
 
-  var currentSong = undefined;
+  var currentSong = null;
   var isPlayingBOOL = false;
   var currentaudio = document.createElement('audio');
 	var currentTime = 0;
+	var songList = [];
 
   // jukeFactoryObj.currentaudio.addEventListener('ended', function () {
   //   $scope.next();
@@ -15,21 +16,32 @@ juke.factory('PlayerFactory', function(){
   //   $scope.$evalAsync(); // likely best, schedules digest if none happening
   // });
 
+	// HELPER FUNCTIONS FOR NEXT AND PREV //
+	function mod (num, m) { return ((num % m) + m) % m; }
 
-  jukeFactoryObj.start = function(song) {
+	function skip (interval) {
+		if (!currentSong) return;
+		var index = currentSong.albumIndex;
+		index = mod( (index + (interval || 1)), songList.length );
+		currentSong = songList[index];
+		if (!isPlayingBOOL) jukeFactoryObj.start(currentSong, songList);
+	}
+
+	// ACCESSIBLE METHODS IN FACTORY
+  jukeFactoryObj.start = function(song, listOfSongs) {
+  	songList = listOfSongs;
   	if( isPlayingBOOL ){
   		jukeFactoryObj.pause();
   		isPlayingBOOL = false;
   	}
-  	if (currentaudio.currentTime > 0 && song === currentSong) currentaudio.play();
+  	// if (currentaudio.currentTime > 0 && song === currentSong) currentaudio.play();
 	  else {
 		  currentSong = song;
 		  currentaudio.src = song.audioUrl;
 		  currentaudio.load();
 		  currentaudio.play();
+		  isPlayingBOOL = true;
 	  }
-	  isPlayingBOOL = true;
-
   }
 
   jukeFactoryObj.pause = function() {
@@ -40,12 +52,13 @@ juke.factory('PlayerFactory', function(){
   }
 
   jukeFactoryObj.resume = function(song) {
-  	if( !isPlayingBOOL )
-  		if (song === currentSong) {
-  		  currentaudio.currentTime = currentTime;
-			  console.log("Time at pause: ", currentaudio.currentTime)
-  		  jukeFactoryObj.start(currentSong);
-		  }
+  	if( !isPlayingBOOL ){
+		  currentaudio.currentTime = currentTime;
+		  console.log("Time at pause: ", currentaudio.currentTime)
+		  currentaudio.play();
+		  isPlayingBOOL = true;
+		  console.log("Are we playing: ", isPlayingBOOL)
+	  }
   }
 
   jukeFactoryObj.isPlaying = function() {
@@ -61,7 +74,9 @@ juke.factory('PlayerFactory', function(){
   	return currentTime;
   }
 
-  jukeFactoryObj.next = function() {}
+  jukeFactoryObj.next = function() {
+  	skip(1);
+  }
 
   jukeFactoryObj.previous = function() {}
 
