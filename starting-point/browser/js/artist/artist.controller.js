@@ -7,28 +7,13 @@ juke.controller('ArtistCtrl', function($scope, $log, $rootScope, ArtistFactory){
 		$scope.artists = data.artists;
 	})
 
-	$scope.viewOneArtist = function(artistId){
-		console.log("Artist ID ", artistId);
-		ArtistFactory.fetchById(artistId)
-			.then(function(foundArtist){
-				$scope.artist = foundArtist;
-				foundArtist.albums = ArtistFactory.fetchAlbum(foundArtist.id)
-					.then(function(foundAlbums){
-						$scope.artist.albums = foundAlbums.map((album)=>{
-							return album.name;
-						}).join(', ');
-					})
-				ArtistFactory.fetchSongs(foundArtist.id)
-					.then(function(foundSongs){
-						$scope.artist.songs = foundSongs;
-					})
-				console.log($scope.artists);
-				$rootScope.$broadcast('viewArtists', { name: 'allArtists', artists: $scope.artist});
-			})
-			.catch($log.error);
-	}
+	// hides all artists upon broadcast for single selected artist
+	$scope.$on('hideAllArtists', function(event, data){
+		$scope.showMe = (data.name === 'allArtists');
 
-	// $scope.$on('viewOneArtist', function(event, data){
-	// 	$scope.showMe = (data.name === 'oneArtist');
-	// })
+	})
+
+	$scope.viewOneArtist = function(artistId){
+		$rootScope.$broadcast('viewOneArtist', { name: 'oneArtist', artistId: artistId});
+	}
 })

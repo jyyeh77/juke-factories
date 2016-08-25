@@ -12,7 +12,8 @@ juke.controller('AlbumsCtrl', function($scope, $log, $rootScope, AlbumsFactory, 
 		.catch($log.error);
 
 	$scope.$on('viewSwap', function (event, data) {
-		// console.log(data.name === 'allAlbums');
+		console.log(data.name === 'allAlbums');
+		console.log("Listened to event from rootScope in Albums Ctrl")
 		$scope.showMe = (data.name === 'allAlbums');
 	})
 
@@ -29,7 +30,6 @@ juke.controller('AlbumsCtrl', function($scope, $log, $rootScope, AlbumsFactory, 
 				$rootScope.$broadcast('viewSwap', {name: 'oneAlbum', album: clickedAlbum});
 			})
 			.catch($log.error)
-
 	}
 })
 
@@ -41,6 +41,5 @@ juke.factory('AlbumsFactory', function($http){
 				return res.data;
 			})
 	}
-
 	return albumsObj;
 })
